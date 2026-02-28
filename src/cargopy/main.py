@@ -1,4 +1,4 @@
-#!/home/kopihue/Python/cargopy/.venv/bin/python
+#!/usr/bin/env python
 
 from paintmystring.paint import paint
 from help_panel import help_panel
