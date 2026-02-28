@@ -2,6 +2,7 @@
 
 import sys
 import structure
+import utils
 
 args = sys.argv[1:]
 new = False
@@ -42,7 +43,8 @@ if new or cd:
         struct.new(dir_name)
 
     if cd:
-        struct.cd()
+        print(struct.cd())
 
 if venv:
-    print("venv")
+    utils = utils.Utils()
+    utils.venv()

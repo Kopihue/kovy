@@ -1,5 +1,7 @@
 from pathlib import Path
 import sys
+import shutil
+import subprocess
 
 class Structure:
     def __init__(self):
@@ -8,24 +10,42 @@ class Structure:
     def new(self, dir_name: str):
         dir_path = self.pwd / dir_name
 
-        dir_path.mkdir(exist_ok=True)
+        if dir_path.exists():
+            print("Project already exists")
+            sys.exit(1)
+
+        try:
+            dir_path.mkdir(exist_ok=True)
+        except Exception as e:
+            print("Exception", e)
+
         (dir_path / "README.md").touch()
         (dir_path / "pyproject.toml").touch()
 
         src_dir = dir_path / "src"
         tests_dir = dir_path / "tests"
-        src_dir.mkdir(exist_ok=True)
-        tests_dir.mkdir(exist_ok=True)
+        src_dir.mkdir()
+        tests_dir.mkdir()
 
         package_dir = src_dir / dir_name
-        package_dir.mkdir(exist_ok=True)
+        package_dir.mkdir()
         (package_dir / "__init__.py").touch()
 
-    def cd(self):
+        print(f"Created project in {dir_name}")
+        if shutil.which("git") is not None:
+            subprocess.run(
+                ["git", "init"],
+                cwd=dir_path,
+            )
+
+        else:
+            print("Couldn't create git repository, git doesn't exists")
+
+    def cd(self) -> Path:
         while True:
             if (self.pwd / "pyproject.toml").exists():
-                print(self.pwd)
-                break;
+                pwd = self.pwd
+                return pwd
 
             elif self.pwd.parent == self.pwd:
                 print("You haven't initialized a Python project")
