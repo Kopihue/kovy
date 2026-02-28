@@ -1,6 +1,7 @@
 from pathlib import Path
 from structure import Structure
 from project import Project
+from paintmystring.paint import paint
 import subprocess
 import sys
 
@@ -14,11 +15,14 @@ class Utils(Project):
     def venv(self):
         check_venv = self.check_venv_existence()
         if check_venv is None:
-            print("Not a Python project")
+            paint("Not a Python project!").bright_magenta().bold().show()
             sys.exit(1)
 
         if check_venv:
-            print(".venv already exists!")
+            paint(
+                paint(".venv").bright_cyan().bold(),
+                paint("already exists!").bold(),
+            ).show()
             sys.exit(1)
 
         else:
@@ -33,11 +37,14 @@ class Utils(Project):
             self.pip("pip", "upgrade")
 
             if result.returncode != 0:
-                print("The command has failed.")
+                paint("The command has failed.").bold().show()
                 print(result.stderr)
 
             else:
-                print("Succesfully created .venv!")
+                paint(
+                    paint("Succesfully created venv in ->").bold(),
+                    paint(".venv").bright_cyan().bold(),
+                ).show()
 
     def run(self, file_name: str, file_args: list[str] | None):
         check_venv = self.check_venv_existence()
@@ -51,7 +58,7 @@ class Utils(Project):
             or self.root_project is None 
             or isolated_python is None
         ):
-            print("Not a Python project")
+            paint("Not a Python project!").bright_magenta().bold().show()
             sys.exit(1)
 
         if not check_venv:
@@ -69,7 +76,10 @@ class Utils(Project):
                     found_scripts.append(path.resolve())
 
             if not found_scripts:
-                print(f"Didn't found script in {self.root_project}")
+                paint(
+                    paint("Didn't find script in ->").bold(),
+                    paint(file_name).blue(),
+                ).show()
                 sys.exit(1)
 
             command = [isolated_python, found_scripts[0], *file_args]
@@ -82,7 +92,7 @@ class Utils(Project):
         isolated_python = self.get_isolated_python()
 
         if check_venv is None or isolated_python is None:
-            print("Not a Python project")
+            paint("Not a Python project!").bright_magenta().bold().show()
             sys.exit(1)
 
         if not check_venv:
