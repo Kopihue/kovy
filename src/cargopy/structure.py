@@ -1,5 +1,5 @@
 from pathlib import Path
-from project import Project
+from .project import Project
 from paintmystring.paint import paint
 import sys
 import shutil

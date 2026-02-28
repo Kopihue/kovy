@@ -1,5 +1,5 @@
 from paintmystring.paint import paint
-from help_panel import help_panel
+from .help_panel import help_panel
 import sys
 import structure
 import utils

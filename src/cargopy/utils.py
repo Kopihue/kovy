@@ -1,6 +1,6 @@
 from pathlib import Path
-from structure import Structure
-from project import Project
+from .structure import Structure
+from .project import Project
 from paintmystring.paint import paint
 import subprocess
 import sys
