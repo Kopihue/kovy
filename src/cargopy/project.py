@@ -1,4 +1,5 @@
 from pathlib import Path
+import sys
 
 class Project:
     @staticmethod
@@ -26,3 +27,24 @@ class Project:
 
         else:
             return False
+
+    @staticmethod
+    def get_isolated_python() -> Path | None:
+        root_project = Project.get_project_root()
+
+        if root_project is None:
+            return None
+
+        isolated_python = (
+            root_project
+            / ".venv" 
+            / "bin" 
+            / "python"
+        )
+
+        if not isolated_python.exists():
+            print("Virtual Python doesn't exists")
+            print("Try running again \"cargopy venv\"")
+            sys.exit(1)
+
+        return isolated_python

@@ -1,99 +1,137 @@
-#!/home/kopihue/Python/cargopy/.venv/bin/python
+#!/usr/bin/env python3
 
 import sys
 import structure
 import utils
 
-args = sys.argv[1:]
+def main():
+    args = sys.argv[1:]
 
-new = False
-dir_name = None
+    new = False
+    dir_name = None
 
-cd = False
+    cd = False
 
-venv = False
+    venv = False
 
-run = False
-file_name = None
-file_args = None
+    run = False
+    file_name = None
+    file_args = None
 
-add = None
-package = None
+    pip = None
+    package = None
+    install = False
+    upgrade = False
+    uninstall = False
+    listed = False
 
 
-while args:
-    arg = args.pop(0)
+    while args:
+        arg = args.pop(0)
 
-    match arg:
-        case "help" | "--help":
-            print("Help panel deployed")
+        match arg:
+            case "help" | "--help":
+                print("Help panel deployed")
 
-        case "new":
-            new = True
-            try:
-                dir_name = args.pop(0)
-            except IndexError:
-                print("New action requires an argument!")
+            case "new":
+                new = True
+                try:
+                    dir_name = args.pop(0)
+                except IndexError:
+                    print("New action requires an argument!")
 
-        case "cd":
-            cd = True
+            case "cd":
+                cd = True
 
-        case "venv":
-            venv = True
+            case "venv":
+                venv = True
 
-        case "run":
-            run = True
-            try:
-                file_name = args.pop(0)
-            except IndexError:
-                print("Run action requires an argument!")
+            case "run":
+                run = True
+                try:
+                    file_name = args.pop(0)
+                except IndexError:
+                    print("Run action requires an argument!")
 
-            try:
-                are_there_arguments = args.pop(0)
-                if are_there_arguments == "--":
-                    pass
+                try:
+                    are_there_arguments = args.pop(0)
+                    if are_there_arguments == "--":
+                        pass
 
+                    else:
+                        raise ValueError("Invalid action")
+                except IndexError:
+                    file_args = []
                 else:
-                    raise ValueError("Invalid action")
-            except IndexError:
-                file_args = []
-            else:
-                file_args = args
+                    file_args = args
 
-        case "add":
-            add = True
-            try:
-                package = args.pop(0)
-            except IndexError:
-                print("Add action requires an argument!")
+            case "install":
+                pip = True
+                install = True
+                try:
+                    package = args.pop(0)
+                except IndexError:
+                    print("Add action requires an argument!")
+
+            case "upgrade":
+                pip = True
+                upgrade = True
+                try:
+                    package = args.pop(0)
+                except IndexError:
+                    print("Add action requires an argument!")
+
+            case "uninstall":
+                pip = True
+                uninstall = True
+                try:
+                    package = args.pop(0)
+                except IndexError:
+                    print("Add action requires an argument!")
+
+            case "list":
+                pip = True
+                listed = True
+
+            case _:
+                print("Unknown option")
+
+    if new or cd:
+        struct = structure.Structure()
+
+        if new:
+            if dir_name is None:
                 sys.exit(1)
 
-        case _:
-            print("Unknown option")
+            struct.new(dir_name)
 
-if new or cd:
-    struct = structure.Structure()
+        elif cd:
+            print(struct.cd())
 
-    if new:
-        if dir_name is None:
-            sys.exit(1)
+    if venv or run or pip:
+        project_utils = utils.Utils()
 
-        struct.new(dir_name)
+        if venv:
+            project_utils.venv()
 
-    elif cd:
-        print(struct.cd())
+        elif run:
+            if file_name is None:
+                sys.exit(1)
 
-if venv or run or add:
-    utils = utils.Utils()
+            project_utils.run(file_name, file_args)
 
-    if venv:
-        utils.venv()
+        elif pip:
+            if package is None:
+                sys.exit(1)
 
-    elif run:
-        if file_name is None:
-            sys.exit(1)
+            if install:
+                project_utils.pip(package, "install")
 
-        utils.run(file_name, file_args)
+            elif upgrade:
+                project_utils.pip(package, "upgrade")
 
-    elif add:
-        print("add", package)
+            elif uninstall:
+                project_utils.pip(package, "uninstall")
+
+            elif listed:
+                project_utils.pip("", "list")

@@ -39,11 +39,16 @@ class Utils(Project):
 
     def run(self, file_name: str, file_args: list[str] | None):
         check_venv = self.check_venv_existence()
+        isolated_python = self.get_isolated_python()
 
         if file_args is None:
             sys.exit(1)
 
-        if check_venv is None or self.root_project is None:
+        if (
+            check_venv is None 
+            or self.root_project is None 
+            or isolated_python is None
+        ):
             print("Not a Python project")
             sys.exit(1)
 
@@ -52,18 +57,6 @@ class Utils(Project):
             check_venv = True
 
         if check_venv:
-            isolated_python = (
-                self.root_project 
-                / ".venv" 
-                / "bin" 
-                / "python"
-            )
-
-            if not isolated_python.exists():
-                print("Virtual Python doesn't exists")
-                print("Try running again \"cargopy venv\"")
-                sys.exit(1)
-
             ignored_dirs = {".venv", "__pycache__"}
             found_scripts = []
             for path in self.root_project.rglob(file_name):
@@ -88,5 +81,56 @@ class Utils(Project):
                 print(f"Exception running {file_name}")
                 print(result.stderr)
 
-    def add(self, package):
+    def pip(self, package: str, action: str):
+        check_venv = self.check_venv_existence()
+        isolated_python = self.get_isolated_python()
 
+        if check_venv is None or isolated_python is None:
+            print("Not a Python project")
+            sys.exit(1)
+
+        if not check_venv:
+            self.venv()
+            check_venv = True
+
+        if check_venv:
+            if action == "upgrade":
+                command = [
+                    isolated_python,
+                    "-m",
+                    "pip",
+                    "install",
+                    "--upgrade",
+                    package,
+                ]
+
+            elif action == "list":
+                command = [
+                    isolated_python,
+                    "-m",
+                    "pip",
+                    action,
+                ]
+
+            elif action == "uninstall":
+                command = [
+                    isolated_python,
+                    "-m",
+                    "pip",
+                    action,
+                    "-y",
+                    package
+                ]
+
+            else:
+                command = [
+                    isolated_python,
+                    "-m",
+                    "pip",
+                    action,
+                    package,
+                ]
+
+            subprocess.run(
+                command,
+            )
