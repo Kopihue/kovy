@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 from paintmystring.paint import paint
 from help_panel import help_panel
 import sys
