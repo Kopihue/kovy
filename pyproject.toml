@@ -7,6 +7,9 @@ requires-python = ">= 3.14"
 authors = [
 { name = "Kopihue", email = "kopihuegit@gmail.com" }
 ]
+dependencies = [
+    "PaintMyString",
+]
 
 [project.scripts]
 cargopy = "cargopy.main:main"
