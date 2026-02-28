@@ -1,6 +1,7 @@
-#!/usr/bin/env python3
+#!/home/kopihue/Python/cargopy/.venv/bin/python
 
 from paintmystring.paint import paint
+from help_panel import help_panel
 import sys
 import structure
 import utils
@@ -32,7 +33,7 @@ def main():
 
         match arg:
             case "help" | "--help":
-                print("Help panel deployed")
+                help_panel()
 
             case "new":
                 new = True
