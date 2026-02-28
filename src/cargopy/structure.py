@@ -1,11 +1,13 @@
 from pathlib import Path
+from project import Project
 import sys
 import shutil
 import subprocess
 
-class Structure:
+class Structure(Project):
     def __init__(self):
         self.pwd = Path.cwd()
+        self.root_project = self.get_project_root()
 
     def new(self, dir_name: str):
         dir_path = self.pwd / dir_name
@@ -42,13 +44,9 @@ class Structure:
             print("Couldn't create git repository, git doesn't exists")
 
     def cd(self) -> Path:
-        while True:
-            if (self.pwd / "pyproject.toml").exists():
-                pwd = self.pwd
-                return pwd
+        if self.root_project is None:
+            print("You haven't initialized a Python project!")
+            sys.exit(1)
 
-            elif self.pwd.parent == self.pwd:
-                print("You haven't initialized a Python project")
-                sys.exit(1)
-
-            self.pwd = self.pwd.parent
+        else:
+            return self.root_project

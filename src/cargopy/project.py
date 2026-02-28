@@ -14,3 +14,15 @@ class Project:
 
             else:
                 pwd = pwd.parent
+
+    @staticmethod
+    def check_venv_existence() -> bool | None:
+        pwd = Project.get_project_root()
+        if pwd is None:
+            return None
+        
+        if (pwd / ".venv").exists():
+            return True
+
+        else:
+            return False
