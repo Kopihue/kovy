@@ -1,8 +1,8 @@
 from paintmystring.paint import paint
 from .help_panel import help_panel
+from .structure import Structure
+from .utils import Utils
 import sys
-import structure
-import utils
 
 def main():
     args = sys.argv[1:]
@@ -116,7 +116,7 @@ def main():
                 ).show()
 
     if new or cd:
-        struct = structure.Structure()
+        struct = Structure()
 
         if new:
             if dir_name is None:
@@ -128,7 +128,7 @@ def main():
             print(struct.cd())
 
     if venv or run or pip:
-        project_utils = utils.Utils()
+        project_utils = Utils()
 
         if venv:
             project_utils.venv()
