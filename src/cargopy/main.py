@@ -135,3 +135,6 @@ def main():
 
             elif listed:
                 project_utils.pip("", "list")
+
+if __name__ == "__main__":
+    main()

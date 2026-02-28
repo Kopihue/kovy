@@ -71,15 +71,9 @@ class Utils(Project):
                 sys.exit(1)
 
             command = [isolated_python, found_scripts[0], *file_args]
-            result = subprocess.run(
+            subprocess.run(
                 command,
-                capture_output=True,
-                text=True,
             )
-
-            if result.returncode != 0:
-                print(f"Exception running {file_name}")
-                print(result.stderr)
 
     def pip(self, package: str, action: str):
         check_venv = self.check_venv_existence()
