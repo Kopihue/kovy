@@ -30,6 +30,8 @@ class Utils(Project):
                 cwd=self.root_project
             )
 
+            self.pip("pip", "upgrade")
+
             if result.returncode != 0:
                 print("The command has failed.")
                 print(result.stderr)

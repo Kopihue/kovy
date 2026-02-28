@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from paintmystring.paint import paint
 import sys
 import structure
 import utils
@@ -38,7 +39,10 @@ def main():
                 try:
                     dir_name = args.pop(0)
                 except IndexError:
-                    print("New action requires an argument!")
+                    paint(
+                        paint("New").bright_red().bold(),
+                        paint("action requires an argument...").bold(),
+                    ).show()
 
             case "cd":
                 cd = True
@@ -51,7 +55,10 @@ def main():
                 try:
                     file_name = args.pop(0)
                 except IndexError:
-                    print("Run action requires an argument!")
+                    paint(
+                        paint("Run").bright_red().bold(),
+                        paint("action requires an argument...").bold(),
+                    ).show()
 
                 try:
                     are_there_arguments = args.pop(0)
@@ -71,7 +78,10 @@ def main():
                 try:
                     package = args.pop(0)
                 except IndexError:
-                    print("Add action requires an argument!")
+                    paint(
+                        paint("Install").bright_red().bold(),
+                        paint("action requires an argument...").bold(),
+                    ).show()
 
             case "upgrade":
                 pip = True
@@ -79,7 +89,10 @@ def main():
                 try:
                     package = args.pop(0)
                 except IndexError:
-                    print("Add action requires an argument!")
+                    paint(
+                        paint("Upgrade").bright_red().bold(),
+                        paint("action requires an argument...").bold(),
+                    ).show()
 
             case "uninstall":
                 pip = True
@@ -87,14 +100,21 @@ def main():
                 try:
                     package = args.pop(0)
                 except IndexError:
-                    print("Add action requires an argument!")
+                    paint(
+                        paint("Uninstall").bright_red().bold(),
+                        paint("action requires an argument...").bold(),
+                    ).show()
 
             case "list":
                 pip = True
                 listed = True
 
             case _:
-                print("Unknown option")
+                paint("Unknown option...").bold().red().show()
+                paint(
+                    paint("Try:").bright_cyan().bold(),
+                    paint("help").bright_yellow(),
+                ).show()
 
     if new or cd:
         struct = structure.Structure()
