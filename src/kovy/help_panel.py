@@ -43,7 +43,7 @@ def help_panel():
     ).show()
 
     paint(
-        paint("\trun <parameter> ->").bright_magenta(),
+        paint("\trun -- <parameter> ->").bright_magenta(),
         paint("Runs the script named <parameter> just if it exists").bold()
     ).show()
 
