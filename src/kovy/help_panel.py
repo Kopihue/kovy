@@ -20,7 +20,7 @@ def help_panel():
     
     paint(
         paint("Usage:"),
-        paint("cargopy").bright_red().bold(),
+        paint("kovy").bright_red().bold(),
         paint("<option>").bright_green().bold(),
         paint("<parameter>").bright_blue().bold(),
     ).show()

@@ -130,7 +130,7 @@ def main():
         elif cd:
             print(struct.cd())
 
-    if venv or run or pip:
+    elif venv or run or pip:
         project_utils = Utils()
 
         if venv:
@@ -157,6 +157,9 @@ def main():
 
             elif listed:
                 project_utils.pip("list")
+
+    else:
+        help_panel()
 
 if __name__ == "__main__":
     main()
