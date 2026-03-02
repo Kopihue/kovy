@@ -36,7 +36,8 @@ class Utils(Project):
                 cwd=self.root_project
             )
 
-            self.pip("pip", "upgrade")
+            self.pip("upgrade", "pip")
+            self.pip("editable")
 
             if result.returncode != 0:
                 paint("The command has failed.").bold().show()
@@ -70,13 +71,45 @@ class Utils(Project):
         if check_venv:
             py_project = self.root_project / "pyproject.toml"
             if not py_project.exists():
-                paint("Your pyproject doesn't exists...").red().bold().show()
+                paint("Your pyproject doesn't exist...").red().bold().show()
                 sys.exit(1)
 
             with open(py_project, "rb") as f:
                 data = tomllib.load(f)
 
-            print(data)
+            try:
+                script: dict = data["project"]["scripts"]
+            except KeyError:
+                paint("No block \"scripts\" in your pyproject").bold().show()
+                paint(
+                    paint("[+]").bright_green(),
+                    paint("Add [project.scripts] to your pyproject").blue().bold(),
+                ).show()
+                sys.exit(1)
+
+            entry_point = script.items()
+            _, entry_point = list(entry_point)[0]
+
+            module, _ = entry_point.split(":")
+
+            command = [
+                isolated_python,
+                "-m",
+                module,
+            ]
+
+            result = subprocess.run(
+                command,
+                capture_output=True,
+                text=True,
+            )
+
+            if result.returncode != 0:
+                paint("Error: ").bright_red().bold().show()
+                print(result.stderr)
+
+            else:
+                print(result.stdout, end="")
 
     def pip(self, action: str, package: str | None = None):
         check_venv = self.check_venv_existence()
@@ -130,6 +163,16 @@ class Utils(Project):
                     "-m",
                     "pip",
                     action,
+                ]
+
+            elif action == "editable":
+                command = [
+                    isolated_python,
+                    "-m",
+                    "pip",
+                    "install",
+                    "-e",
+                    ".",
                 ]
 
             elif action == "build":

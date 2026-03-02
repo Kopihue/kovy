@@ -11,15 +11,15 @@ class Structure(Project):
         self.root_project = self.get_project_root()
 
     def new(self, dir_name: str):
-        py_project = """[project]
-name = ""
+        py_project = f"""[project]
+name = "{dir_name}"
 version = "0.1.0"
 description = ""
 readme = "README.md"
-requires-python = ">= 3.14"
-authors = [
-{ name = "Kopihue", email = "kopihuegit@gmail.com" }
-]
+requires-python = ""
+
+[project.scripts]
+{dir_name} = "{dir_name}.main:main"
 
 [project.urls]
 Homepage = ""
@@ -28,6 +28,13 @@ Homepage = ""
 requires = ["hatchling"]
 build-backend = "hatchling.build"
         """
+
+        main_py = """def main():
+    print("Hello, world!")
+
+if __name__ == "__main__": 
+    main()
+    """
 
         dir_path = self.pwd / dir_name
 
@@ -56,11 +63,15 @@ build-backend = "hatchling.build"
         package_dir = src_dir / dir_name
         package_dir.mkdir()
         (package_dir / "__init__.py").touch()
+        (package_dir / "main.py").touch()
+        with open(package_dir / "main.py", "w") as f:
+            f.write(main_py)
 
         paint(
             paint("Created project in ->").bold(),
             paint(dir_name).bold().bright_blue(),
         ).show()
+
         if shutil.which("git") is not None:
             subprocess.run(
                 "git init &>/dev/null",

@@ -1,4 +1,5 @@
 from pathlib import Path
+from paintmystring.paint import paint
 import sys
 
 class Project:
@@ -43,8 +44,8 @@ class Project:
         )
 
         if not isolated_python.exists():
-            print("Virtual Python doesn't exists")
-            print("Try running again \"cargopy venv\"")
+            paint("Virtual Python doesn't exists").bold().show()
+            paint("Try running again \"kovy venv\"").bold().bright_yellow().show()
             sys.exit(1)
 
         return isolated_python

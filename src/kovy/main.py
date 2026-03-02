@@ -27,9 +27,8 @@ def main():
     build = False
     upload = False
 
-    while args:
+    while args: 
         arg = args.pop(0)
-
         match arg:
             case "help" | "--help":
                 help_panel()
@@ -58,9 +57,15 @@ def main():
                         pass
 
                     else:
-                        raise ValueError("Invalid action")
+                        paint(
+                            paint("To pass arguments: ").bold(),
+                            paint("Use -> --").magenta().bold(),
+                            sep="\n",
+                        ).show()
+                        sys.exit(1)
                 except IndexError:
                     file_args = []
+
                 else:
                     file_args = args
 
