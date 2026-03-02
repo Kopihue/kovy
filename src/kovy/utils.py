@@ -87,7 +87,7 @@ class Utils(Project):
                 command,
             )
 
-    def pip(self, package: str, action: str):
+    def pip(self, action: str, package: str | None = None):
         check_venv = self.check_venv_existence()
         isolated_python = self.get_isolated_python()
 
@@ -100,7 +100,16 @@ class Utils(Project):
             check_venv = True
 
         if check_venv:
-            if action == "upgrade":
+            if action == "install" and package is not None:
+                command = [
+                    isolated_python,
+                    "-m",
+                    "pip",
+                    action,
+                    package,
+                ]
+
+            elif action == "upgrade" and package is not None:
                 command = [
                     isolated_python,
                     "-m",
@@ -108,6 +117,16 @@ class Utils(Project):
                     "install",
                     "--upgrade",
                     package,
+                ]
+
+            elif action == "uninstall" and package is not None:
+                command = [
+                    isolated_python,
+                    "-m",
+                    "pip",
+                    action,
+                    "-y",
+                    package
                 ]
 
             elif action == "list":
@@ -118,24 +137,10 @@ class Utils(Project):
                     action,
                 ]
 
-            elif action == "uninstall":
-                command = [
-                    isolated_python,
-                    "-m",
-                    "pip",
-                    action,
-                    "-y",
-                    package
-                ]
-
             else:
-                command = [
-                    isolated_python,
-                    "-m",
-                    "pip",
-                    action,
-                    package,
-                ]
+                paint("Not a pip command!").bright_magenta().bold().show()
+                sys.exit(1)
+
 
             subprocess.run(
                 command,

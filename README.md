@@ -1,6 +1,6 @@
-# Cargopy 🚀
+# Kovy 🚀
 
-**Cargopy** es una herramienta ligera inspirada en **cargo** de Rust para gestionar proyectos de Python de manera rápida y eficiente, desde la creación hasta la ejecución de scripts y manejo de paquetes.
+**Kovy** es una herramienta ligera inspirada en **cargo** de Rust para gestionar proyectos de Python de manera rápida y eficiente, desde la creación hasta la ejecución de scripts y manejo de paquetes.
 
 ---
 
@@ -24,16 +24,16 @@
 
 ```bash
 # Crear un proyecto llamado "mi_proyecto"
-cargopy new mi_proyecto
+kovy new mi_proyecto
 
 # Inicializar entorno virtual
-cargopy venv
+kovy venv
 
 # Instalar requests
-cargopy install requests
+kovy install requests
 
 # Ejecutar script principal
-cargopy run main.py
+kovy run main.py
 ```
 
 💡 Notas
@@ -42,5 +42,5 @@ cargopy run main.py
 - run solo ejecutará scripts que existan dentro de tu proyecto.
 - Maneja tus paquetes directamente desde Cargopy para mantener tu proyecto limpio y organizado.
 
-¡Disfruta usando Cargopy! 🎉
+¡Disfruta usando kovy! 🎉
 

@@ -25,6 +25,8 @@ def main():
     uninstall = False
     listed = False
 
+    build = None
+    upload = None
 
     while args:
         arg = args.pop(0)
@@ -107,6 +109,7 @@ def main():
             case "list":
                 pip = True
                 listed = True
+                package = "list"
 
             case _:
                 paint("Unknown option...").bold().red().show()
@@ -144,16 +147,16 @@ def main():
                 sys.exit(1)
 
             if install:
-                project_utils.pip(package, "install")
+                project_utils.pip("install", package)
 
             elif upgrade:
-                project_utils.pip(package, "upgrade")
+                project_utils.pip("upgrade", package)
 
             elif uninstall:
-                project_utils.pip(package, "uninstall")
+                project_utils.pip("uninstall", package)
 
             elif listed:
-                project_utils.pip("", "list")
+                project_utils.pip("list")
 
 if __name__ == "__main__":
     main()

@@ -14,6 +14,7 @@ def help_panel():
         paint("Help panel deployed").bright_yellow().bold(),
         paint("*"),
     ).show()
+
     paint("*" * 23).show()
     print()
     
