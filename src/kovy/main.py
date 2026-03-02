@@ -15,7 +15,6 @@ def main():
     venv = False
 
     run = False
-    file_name = None
     file_args = None
 
     pip = None
@@ -25,8 +24,8 @@ def main():
     uninstall = False
     listed = False
 
-    build = None
-    upload = None
+    build = False
+    upload = False
 
     while args:
         arg = args.pop(0)
@@ -53,14 +52,6 @@ def main():
 
             case "run":
                 run = True
-                try:
-                    file_name = args.pop(0)
-                except IndexError:
-                    paint(
-                        paint("Run").bright_red().bold(),
-                        paint("action requires an argument...").bold(),
-                    ).show()
-
                 try:
                     are_there_arguments = args.pop(0)
                     if are_there_arguments == "--":
@@ -111,12 +102,23 @@ def main():
                 listed = True
                 package = "list"
 
+            case "build":
+                pip = True
+                build = True
+                package = "build"
+
+            case "upload":
+                pip = True
+                upload = True
+                package = "upload"
+
             case _:
                 paint("Unknown option...").bold().red().show()
                 paint(
                     paint("Try:").bright_cyan().bold(),
                     paint("help").bright_yellow(),
                 ).show()
+                sys.exit(1)
 
     if new or cd:
         struct = Structure()
@@ -137,10 +139,7 @@ def main():
             project_utils.venv()
 
         elif run:
-            if file_name is None:
-                sys.exit(1)
-
-            project_utils.run(file_name, file_args)
+            project_utils.run(file_args)
 
         elif pip:
             if package is None:
@@ -157,6 +156,12 @@ def main():
 
             elif listed:
                 project_utils.pip("list")
+
+            elif build:
+                project_utils.pip("build")
+
+            elif upload:
+                project_utils.pip("upload")
 
     else:
         help_panel()

@@ -1,9 +1,11 @@
-from pathlib import Path
 from .structure import Structure
 from .project import Project
 from paintmystring.paint import paint
+from pathlib import Path
 import subprocess
 import sys
+import shutil
+import tomllib
 
 class Utils(Project):
     def __init__(self):
@@ -46,7 +48,7 @@ class Utils(Project):
                     paint(".venv").bright_cyan().bold(),
                 ).show()
 
-    def run(self, file_name: str, file_args: list[str] | None):
+    def run(self, file_args: list[str] | None):
         check_venv = self.check_venv_existence()
         isolated_python = self.get_isolated_python()
 
@@ -66,32 +68,25 @@ class Utils(Project):
             check_venv = True
 
         if check_venv:
-            ignored_dirs = {".venv", "__pycache__"}
-            found_scripts = []
-            for path in self.root_project.rglob(file_name):
-                if not any(
-                    ignored in path.parts
-                    for ignored in ignored_dirs
-                ):
-                    found_scripts.append(path.resolve())
-
-            if not found_scripts:
-                paint(
-                    paint("Didn't find script in ->").bold(),
-                    paint(file_name).blue(),
-                ).show()
+            py_project = self.root_project / "pyproject.toml"
+            if not py_project.exists():
+                paint("Your pyproject doesn't exists...").red().bold().show()
                 sys.exit(1)
 
-            command = [isolated_python, found_scripts[0], *file_args]
-            subprocess.run(
-                command,
-            )
+            with open(py_project, "rb") as f:
+                data = tomllib.load(f)
+
+            print(data)
 
     def pip(self, action: str, package: str | None = None):
         check_venv = self.check_venv_existence()
         isolated_python = self.get_isolated_python()
 
-        if check_venv is None or isolated_python is None:
+        if (
+            check_venv is None 
+            or isolated_python is None 
+            or self.root_project is None
+        ):
             paint("Not a Python project!").bright_magenta().bold().show()
             sys.exit(1)
 
@@ -136,6 +131,51 @@ class Utils(Project):
                     "pip",
                     action,
                 ]
+
+            elif action == "build":
+                dist_directory = self.root_project / "dist"
+                if (dist_directory).exists():
+                    paint(
+                        paint("Directory \"dist\" detected.").yellow().bold(),
+                        paint("Deleting it.").bright_red().bold()
+                    ).show()
+
+                    try:
+                        shutil.rmtree(dist_directory)
+                    except Exception as e:
+                        paint(
+                            paint("Error, ").bold().red(),
+                            paint(e),
+                        ).show()
+
+                command = [
+                    isolated_python,
+                    "-m",
+                    action,
+                ]
+
+                paint("Creating \"dist\" directory...").green().bold().show()
+
+                result = subprocess.run(
+                    command,
+                    cwd=self.root_project,
+                    capture_output=True,
+                    text=True,
+                )
+
+                if result.returncode == 0:
+                    paint("All good.").blue().bold().show()
+
+                else:
+                    paint("There was an exception...").red().bold().show()
+                    print("\n", result.stderr)
+
+                sys.exit(0)
+
+            elif action == "upload":
+                print("Upload")
+
+                sys.exit(0)
 
             else:
                 paint("Not a pip command!").bright_magenta().bold().show()

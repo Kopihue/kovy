@@ -62,4 +62,19 @@ def help_panel():
         paint("Uninstalls the package named <parameter>").bold()
     ).show()
 
+    paint(
+        paint("\tlist ->").bright_magenta(),
+        paint("Lists every package, equal to \"pip list\"").bold()
+    ).show()
+
+    paint(
+        paint("\tbuild ->").bright_magenta(),
+        paint("Builds your project and creates a dist directory").bold()
+    ).show()
+
+    paint(
+        paint("\tupload ->").bright_magenta(),
+        paint("Uploads your project to PyPi").bold()
+    ).show()
+
     print()
