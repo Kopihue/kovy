@@ -13,6 +13,7 @@ def main():
     cd = False
 
     venv = False
+    complete = False
 
     run = False
     file_args = None
@@ -48,6 +49,21 @@ def main():
 
             case "venv":
                 venv = True
+                try:
+                    complete_flag = args.pop(0)
+                except IndexError:
+                    pass
+                else:
+                    if complete_flag == "--complete":
+                        complete = True
+
+                    else:
+                        paint("Invalid flag").bright_red().bold().show()
+                        paint(
+                            paint("The only flag avaivable is ->").magenta().bold(),
+                            paint("--complete").bold(),
+                        ).show()
+                        sys.exit(1)
 
             case "run":
                 run = True
@@ -141,7 +157,7 @@ def main():
         project_utils = Utils()
 
         if venv:
-            project_utils.venv()
+            project_utils.venv(complete)
 
         elif run:
             project_utils.run(file_args)

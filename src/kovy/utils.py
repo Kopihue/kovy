@@ -14,7 +14,7 @@ class Utils(Project):
         self.pwd = Path.cwd()
         self.root_project = self.get_project_root()
 
-    def venv(self):
+    def venv(self, complete: bool):
         check_venv = self.check_venv_existence()
         if check_venv is None:
             paint("Not a Python project!").bright_magenta().bold().show()
@@ -36,10 +36,16 @@ class Utils(Project):
                 cwd=self.root_project
             )
 
-            self.pip("upgrade", "pip")
-            self.pip("install", "build")
-            self.pip("install", "twine")
-            self.pip("editable")
+            if complete:
+                self.pip("upgrade", "pip")
+                self.pip("install", "build")
+                self.pip("install", "twine")
+                self.pip("editable")
+
+            else:
+                self.pip("upgrade", "pip")
+                self.pip("editable")
+
 
             if result.returncode != 0:
                 paint("The command has failed.").bold().show()
