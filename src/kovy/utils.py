@@ -37,6 +37,8 @@ class Utils(Project):
             )
 
             self.pip("upgrade", "pip")
+            self.pip("install", "build")
+            self.pip("install", "twine")
             self.pip("editable")
 
             if result.returncode != 0:
@@ -216,7 +218,36 @@ class Utils(Project):
                 sys.exit(0)
 
             elif action == "upload":
-                print("Upload")
+                dist_path = self.root_project / "dist"
+                if not dist_path.exists():
+                    paint(
+                        paint("Dist doesn't exist...").bold(),
+                    ).show()
+                    self.pip("build")
+
+                command = [
+                    isolated_python,
+                    "-m",
+                    "twine",
+                    "upload",
+                    "dist/*",
+                ]
+
+                paint("Executing upload...").bright_magenta().bold().show()
+
+                result = subprocess.run(
+                    command,
+                    capture_output=True,
+                    text=True,
+                    cwd=self.root_project
+                )
+
+                if result.returncode != 0:
+                    paint("Error:").bright_red().bold().show()
+                    print(result.stdout)
+
+                else:
+                    paint("all good.").blue().bold().show()
 
                 sys.exit(0)
 
