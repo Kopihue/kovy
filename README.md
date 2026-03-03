@@ -1,47 +1,38 @@
-# Kovy 🚀
-
-**Kovy** es una herramienta ligera inspirada en **cargo** de Rust para gestionar proyectos de Python de manera rápida y eficiente, desde la creación hasta la ejecución de scripts y manejo de paquetes.
-
----
-
-## 🛠️ Uso
-
-### Opciones disponibles
-
-| Opción | Descripción |
-|--------|-------------|
-| `new <nombre>` | Crea un nuevo proyecto con el nombre indicado. |
-| `cd` | Muestra la ruta raíz de tu proyecto. |
-| `venv` | Inicializa un entorno virtual en tu proyecto. |
-| `run -- parameters` | Ejecuta el script indicado (solo si existe). |
-| `install <paquete>` | Instala el paquete de Python especificado. |
-| `upgrade <paquete>` | Actualiza el paquete especificado. |
-| `uninstall <paquete>` | Desinstala el paquete especificado. |
-| `build` | Construye el dist. |
-| `upload` | Sube tu proyecto a PyPi! |
-
----
-
-## ⚡ Ejemplos
-
-```bash
-# Crear un proyecto llamado "mi_proyecto"
-kovy new mi_proyecto
-
-# Inicializar entorno virtual
-kovy venv
-
-# Instalar requests
-kovy install requests
-
-# Ejecutar script principal
-kovy run
-```
-
-💡 Notas
-
-- Asegúrate de tener Python instalado en tu sistema.
-- run solo ejecutará scripts que existan dentro de tu proyecto.
-- Maneja tus paquetes directamente desde Cargopy para mantener tu proyecto limpio y organizado.
-
-¡Disfruta usando kovy! 🎉
+# Kovy 🚀
+
+**Kovy** is a lightweight tool inspired by **Rust's cargo** to manage Python projects quickly and efficiently, from project creation to script execution and package management.
+
+---
+
+## 🛠️ Usage
+
+### Available Options
+
+| Option | Description |
+|--------|-------------|
+| `new <name>` | Creates a new project with the given name. |
+| `cd` | Shows the root path of your project. |
+| `venv --complete` | Initializes a virtual environment in your project. Use `--complete` to also automatically install twine and build. |
+| `run -- parameters` | Runs the main script with optional parameters. |
+| `install <package>` | Installs the specified Python package. |
+| `upgrade <package>` | Updates the specified package. |
+| `uninstall <package>` | Uninstalls the specified package. |
+| `build` | Builds the distribution. |
+| `upload` | Uploads your project to PyPi! |
+
+---
+
+## ⚡ Examples
+
+```bash
+# Create a project called "my_project"
+kovy new my_project
+
+# Initialize virtual environment
+kovy venv
+
+# Install requests
+kovy install requests
+```
+
+# Enjoy using kovy!

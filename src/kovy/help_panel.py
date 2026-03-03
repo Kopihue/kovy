@@ -38,13 +38,14 @@ def help_panel():
     ).show()
 
     paint(
-        paint("\tvenv ->").bright_magenta(),
-        paint("Initializes a virtual env in your project").bold()
+        paint("\tvenv <--complete> ->").bright_magenta(),
+        paint("Initializes a virtual env in your project").bold(),
     ).show()
+    paint("\t\t\t     --complete to download build and twine").bold().show()
 
     paint(
         paint("\trun -- <parameter> ->").bright_magenta(),
-        paint("Runs the script named <parameter> just if it exists").bold()
+        paint("Runs the main script with optional parameters").bold()
     ).show()
 
     paint(
