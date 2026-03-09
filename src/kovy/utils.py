@@ -106,18 +106,9 @@ class Utils(Project):
                 module,
             ]
 
-            result = subprocess.run(
+            subprocess.run(
                 command,
-                capture_output=True,
-                text=True,
             )
-
-            if result.returncode != 0:
-                paint("Error: ").bright_red().bold().show()
-                print(result.stderr)
-
-            else:
-                print(result.stdout, end="")
 
     def pip(self, action: str, package: str | None = None):
         check_venv = self.check_venv_existence()

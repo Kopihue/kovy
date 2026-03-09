@@ -27,7 +27,6 @@ def main():
 
     build = False
     upload = False
-
     while args: 
         arg = args.pop(0)
         match arg:
@@ -67,23 +66,20 @@ def main():
 
             case "run":
                 run = True
-                try:
-                    are_there_arguments = args.pop(0)
-                    if are_there_arguments == "--":
-                        pass
+                if args and args[0] == "--":
+                    args.pop(0)
+                    file_args = args
 
-                    else:
-                        paint(
-                            paint("To pass arguments: ").bold(),
-                            paint("Use -> --").magenta().bold(),
-                            sep="\n",
-                        ).show()
-                        sys.exit(1)
-                except IndexError:
-                    file_args = []
+                elif args:
+                    paint(
+                        paint("To pass arguments: ").bold(),
+                        paint("Use -> --").magenta().bold(),
+                        sep="\n",
+                    ).show()
+                    sys.exit(1)
 
                 else:
-                    file_args = args
+                    file_args = []
 
             case "install":
                 pip = True
