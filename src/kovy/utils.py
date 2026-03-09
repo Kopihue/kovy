@@ -106,6 +106,9 @@ class Utils(Project):
                 module,
             ]
 
+            for arg in file_args:
+                command.append(arg)
+
             subprocess.run(
                 command,
             )

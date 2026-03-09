@@ -69,6 +69,7 @@ def main():
                 if args and args[0] == "--":
                     args.pop(0)
                     file_args = args
+                    break
 
                 elif args:
                     paint(
@@ -80,6 +81,7 @@ def main():
 
                 else:
                     file_args = []
+                    break
 
             case "install":
                 pip = True
