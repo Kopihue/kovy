@@ -1,6 +1,6 @@
 [project]
 name = "kovy"
-version = "1.2.1"
+version = "1.2.3"
 description = "Rust Cargo-like project manager for Python"
 readme = "README.md"
 requires-python = ">= 3.14"

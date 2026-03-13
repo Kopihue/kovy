@@ -111,6 +111,7 @@ class Utils(Project):
 
             subprocess.run(
                 command,
+                cwd=self.root_project,
             )
 
     def pip(self, action: str, package: str | None = None):
