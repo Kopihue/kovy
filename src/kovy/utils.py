@@ -65,15 +65,15 @@ class Utils(Project):
             sys.exit(1)
 
         if (
-            check_venv is None 
-            or self.root_project is None 
+            check_venv is None
+            or self.root_project is None
             or isolated_python is None
         ):
             paint("Not a Python project!").bright_magenta().bold().show()
             sys.exit(1)
 
         if not check_venv:
-            self.venv()
+            self.venv(False)
             check_venv = True
 
         if check_venv:
@@ -109,6 +109,8 @@ class Utils(Project):
             for arg in file_args:
                 command.append(arg)
 
+            print("command to execute ->", command)
+
             subprocess.run(
                 command,
             )
@@ -118,15 +120,15 @@ class Utils(Project):
         isolated_python = self.get_isolated_python()
 
         if (
-            check_venv is None 
-            or isolated_python is None 
+            check_venv is None
+            or isolated_python is None
             or self.root_project is None
         ):
             paint("Not a Python project!").bright_magenta().bold().show()
             sys.exit(1)
 
         if not check_venv:
-            self.venv()
+            self.venv(False)
             check_venv = True
 
         if check_venv:
