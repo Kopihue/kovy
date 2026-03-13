@@ -109,8 +109,6 @@ class Utils(Project):
             for arg in file_args:
                 command.append(arg)
 
-            print("command to execute ->", command)
-
             subprocess.run(
                 command,
             )
